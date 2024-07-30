@@ -29,6 +29,7 @@ const Pontos: React.FC = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const userCode = localStorage.getItem('session');
   const history = useHistory();
+  const day_hour = 8;
 
   useEffect(() => {
     if (!userCode) {
@@ -70,7 +71,7 @@ const Pontos: React.FC = () => {
       try {
         console.log(`Fetching bank of hours for user_code: ${userCode}`); 
         const response = await api.get('/bancodehoras', {
-          params: { user_code: userCode, daily_hours: '06:00' }
+          params: { user_code: userCode, daily_hours: `0${day_hour}:00` }
         });
         console.log('Bank of hours response:', response.data);  
         setBankOfHours(response.data.balance);
@@ -130,8 +131,8 @@ const Pontos: React.FC = () => {
           {workTime?.trabalhando ? 'Hora de saída' : 'Hora de entrada'}
         </Button>
         <BankOfHours>
-          <h3>Banco de Horas</h3>
-          <p>{bankOfHours || '0h 0m'}</p>
+          <h3>Banco de Horas - jornada de {day_hour} horas diárias</h3>
+          <p>Seu saldo de horas: {bankOfHours || '0h 0m'}</p>
         </BankOfHours>
         <History>
           <h3>Dias anteriores</h3>

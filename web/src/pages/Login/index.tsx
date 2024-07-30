@@ -52,14 +52,22 @@ const Login: React.FC = () => {
         }
       }
     } else {
-      try {
-        const response = await api.get(`/users/exists/${userCode}`);
+      if (!userCode || !password) {
+        setErrorMessage('Preencha todos os campos.');
+        return;
+      }
 
-        if (response.data.exists) {
+      try {
+        const response = await api.get('/users');
+
+        const users = response.data;
+        const user = users.find((user: { code: string, password: string }) => user.code === userCode && user.password === password);
+
+        if (user) {
           localStorage.setItem('session', userCode);
           history.push('/pontos');
         } else {
-          setErrorMessage('Esse usuário não está cadastrado no sistema.');
+          setErrorMessage('Código ou senha incorretos.');
         }
       } catch (error) {
         setErrorMessage('Erro ao verificar o usuário. Tente novamente mais tarde.');
@@ -81,29 +89,27 @@ const Login: React.FC = () => {
             onKeyPress={handleKeyPress}
           />
         </div>
+        <div className='divInput'>
+          <span>Senha</span>
+          <input
+            type="password"
+            placeholder=""
+            value={password}
+            onChange={(e) => handleInputChange(e, setPassword)}
+            onKeyPress={handleKeyPress}
+          />
+        </div>
         {isRegister && (
-          <>
-            <div className='divInput'>
-              <span>Email</span>
-              <input
-                type="email"
-                placeholder=""
-                value={email}
-                onChange={(e) => handleInputChange(e, setEmail)}
-                onKeyPress={handleKeyPress}
-              />
-            </div>
-            <div className='divInput'>
-              <span>Senha</span>
-              <input
-                type="password"
-                placeholder=""
-                value={password}
-                onChange={(e) => handleInputChange(e, setPassword)}
-                onKeyPress={handleKeyPress}
-              />
-            </div>
-          </>
+          <div className='divInput'>
+            <span>Email</span>
+            <input
+              type="email"
+              placeholder=""
+              value={email}
+              onChange={(e) => handleInputChange(e, setEmail)}
+              onKeyPress={handleKeyPress}
+            />
+          </div>
         )}
         <Button onClick={handleSubmit}>{isRegister ? 'Registrar' : 'Confirmar'}</Button>
         <Button className='registro' onClick={() => setIsRegister(!isRegister)}>
