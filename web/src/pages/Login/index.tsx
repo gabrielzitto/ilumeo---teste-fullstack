@@ -5,6 +5,9 @@ import { Container, InputContainer, Button } from './styles';
 
 const Login: React.FC = () => {
   const [userCode, setUserCode] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isRegister, setIsRegister] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
 
@@ -15,8 +18,8 @@ const Login: React.FC = () => {
     }
   }, [history]);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserCode(event.target.value);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, setState: React.Dispatch<React.SetStateAction<string>>) => {
+    setState(event.target.value);
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -26,17 +29,41 @@ const Login: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    try {
-      const response = await api.get(`/users/exists/${userCode}`);
-
-      if (response.data.exists) {
-        localStorage.setItem('session', userCode);
-        history.push('/pontos');
-      } else {
-        setErrorMessage('Esse usuário não está cadastrado no sistema.');
+    if (isRegister) {
+      if (!userCode || !email || !password) {
+        setErrorMessage('Preencha todos os campos.');
+        return;
       }
-    } catch (error) {
-      setErrorMessage('Erro ao verificar o usuário. Tente novamente mais tarde.');
+
+      try {
+        const response = await api.post('/users', { code: userCode, email, password });
+
+        if (response.data && response.data.code) {
+          localStorage.setItem('session', userCode);
+          history.push('/pontos');
+        } else {
+          setErrorMessage('Erro ao registrar o usuário. Tente novamente mais tarde.');
+        }
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage('Erro ao registrar o usuário. Tente novamente mais tarde.');
+        }
+      }
+    } else {
+      try {
+        const response = await api.get(`/users/exists/${userCode}`);
+
+        if (response.data.exists) {
+          localStorage.setItem('session', userCode);
+          history.push('/pontos');
+        } else {
+          setErrorMessage('Esse usuário não está cadastrado no sistema.');
+        }
+      } catch (error) {
+        setErrorMessage('Erro ao verificar o usuário. Tente novamente mais tarde.');
+      }
     }
   };
 
@@ -50,11 +77,38 @@ const Login: React.FC = () => {
             type="text"
             placeholder=""
             value={userCode}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e, setUserCode)}
             onKeyPress={handleKeyPress}
           />
         </div>
-        <Button onClick={handleSubmit}>Confirmar</Button>
+        {isRegister && (
+          <>
+            <div className='divInput'>
+              <span>Email</span>
+              <input
+                type="email"
+                placeholder=""
+                value={email}
+                onChange={(e) => handleInputChange(e, setEmail)}
+                onKeyPress={handleKeyPress}
+              />
+            </div>
+            <div className='divInput'>
+              <span>Senha</span>
+              <input
+                type="password"
+                placeholder=""
+                value={password}
+                onChange={(e) => handleInputChange(e, setPassword)}
+                onKeyPress={handleKeyPress}
+              />
+            </div>
+          </>
+        )}
+        <Button onClick={handleSubmit}>{isRegister ? 'Registrar' : 'Confirmar'}</Button>
+        <Button className='registro' onClick={() => setIsRegister(!isRegister)}>
+          {isRegister ? 'Voltar ao Login' : 'Registrar'}
+        </Button>
       </InputContainer>
       {errorMessage && <p>{errorMessage}</p>}
     </Container>

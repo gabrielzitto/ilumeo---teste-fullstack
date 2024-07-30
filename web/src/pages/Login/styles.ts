@@ -84,6 +84,7 @@ export const Button = styled.button`
   cursor: pointer;
   width: 100%;
   height: 45px;
+  margin-bottom: 10px;
 
   &:hover {
     opacity: 0.8;
