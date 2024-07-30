@@ -9,9 +9,17 @@ import User from '../entities/User';
 export class PointController {
     async createUser(request: Request, response: Response): Promise<Response> {
         try {
-            const { code } = request.body;
+            const { code, email, password } = request.body;
 
-            const user = await createUser({ code });
+            const userRepository = getRepository(User);
+
+            const existingUser = await userRepository.findOne({ where: [{ code }, { email }] });
+
+            if (existingUser) {
+                return response.status(400).json({ status: 'error', message: 'Usuário já possui conta' });
+            }
+
+            const user = await createUser({ code, email, password });
 
             return response.json(user);
         } catch (error) {
@@ -22,7 +30,7 @@ export class PointController {
 
     async registerPoint(request: Request, response: Response): Promise<Response> {
         try {
-            const { user_code, timestamp } = request.body; 
+            const { user_code, timestamp } = request.body;
 
             const dailyPoints = await registerPoint({ user_code, timestamp });
 
@@ -69,7 +77,6 @@ export class PointController {
         try {
             const { user_code } = request.params;
             const dailyPointsRepository = getRepository(DailyPoints);
-            const pointsHistoryRepository = getRepository(PointsHistory);
 
             const dailyPoints = await dailyPointsRepository.findOne({ user_code });
 
@@ -130,15 +137,23 @@ export class PointController {
     async calculateBankHours(request: Request, response: Response): Promise<Response> {
         try {
             const { user_code, daily_hours } = request.query;
+            if (!user_code || !daily_hours) {
+                return response.status(400).json({ status: 'error', message: 'Parâmetros user_code e daily_hours são obrigatórios' });
+            }
+
+            const [dailyHours, dailyMinutes] = (daily_hours as string).split(':').map(Number);
+            if (isNaN(dailyHours) || isNaN(dailyMinutes)) {
+                return response.status(400).json({ status: 'error', message: 'Formato de daily_hours inválido' });
+            }
+
+            const totalDailyMinutes = dailyHours * 60 + dailyMinutes;
+
             const pointsHistoryRepository = getRepository(PointsHistory);
 
             const history = await pointsHistoryRepository.find({
                 where: { user_code },
                 order: { date: 'ASC' },
             });
-
-            const [dailyHours, dailyMinutes] = daily_hours.split(':').map(Number);
-            const totalDailyMinutes = dailyHours * 60 + dailyMinutes;
 
             let totalWorkedMinutes = 0;
             history.forEach(entry => {
@@ -193,6 +208,4 @@ export class PointController {
             return response.status(500).json({ status: 'error', message: 'Internal server error' });
         }
     }
-
-    
 }
