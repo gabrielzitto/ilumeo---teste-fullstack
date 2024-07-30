@@ -22,11 +22,10 @@ export class PointController {
 
     async registerPoint(request: Request, response: Response): Promise<Response> {
         try {
-            const { user_code, timestamp } = request.body; // Adicionado timestamp
+            const { user_code, timestamp } = request.body; 
 
             const dailyPoints = await registerPoint({ user_code, timestamp });
 
-            // Calculando e formatando hours_today
             const totalMinutes = dailyPoints.hours_today;
             const hours = Math.floor(totalMinutes / 60);
             const minutes = Math.floor(totalMinutes % 60);
@@ -50,7 +49,7 @@ export class PointController {
 
             const history = await pointsHistoryRepository.find({
                 where: { user_code },
-                order: { date: 'DESC' }, // Ordenando da data mais recente para a mais antiga
+                order: { date: 'DESC' },
             });
 
             const formattedHistory = history.map(entry => ({
@@ -194,4 +193,6 @@ export class PointController {
             return response.status(500).json({ status: 'error', message: 'Internal server error' });
         }
     }
+
+    
 }

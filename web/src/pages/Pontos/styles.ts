@@ -7,9 +7,8 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
-  
-  
 `;
+
 export const HourContainer = styled.div`
   width: 365px;
   display: flex;
@@ -74,11 +73,11 @@ export const Header = styled.div`
     .menu .sair {
       background: #ff8c00;
       padding: 2px 10px;
-      border-radius: 10px;
+      border-radius: 4px;
+      border: none;
     }
   }
 `;
-
 
 export const WorkTime = styled.div`
   display: flex;
@@ -159,9 +158,7 @@ export const History = styled.div`
     font-weight: 700;
     line-height: 14.63px;
     text-align: center;
-
   }
-
 
   .timeHistory {
     color: #FFFFFF;
@@ -171,9 +168,9 @@ export const History = styled.div`
     font-weight: 700;
     line-height: 14.63px;
     text-align: center;
-
   }
 `;
+
 export const Pagination = styled.div`
   display: flex;
   justify-content: center;
@@ -195,4 +192,24 @@ export const Pagination = styled.div`
 export const Select = styled.select`
   margin-right: 10px;
   background: #ff8c00;
+`;
+
+export const BankOfHours = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 20px 0;
+
+  h3 {
+    font-size: 18px;
+    font-weight: 400;
+    color:#FFFFFF;
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: 700;
+    color:#FFFFFF;
+  }
 `;

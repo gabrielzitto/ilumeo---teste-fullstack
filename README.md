@@ -3,16 +3,20 @@
 Sistema de Bater Pontos
 </h1>
 
-## :rocket: Technologies
+## tecnologias
 Este projeto está sendo desenvolvido utilizando as seguintes tecnologias:
 
-- [Node.js](https://nodejs.org/en/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Postgres](https://www.postgresql.org/)
-- [TypeORM](https://typeorm.io/#/)
-- [Express.js](https://expressjs.com/)
-- [ReactJS](https://reactjs.org)
-- [Styled Components](https://styled-components.com/)
+- Node.js
+- TypeScript
+- Postgres
+- TypeORM
+- Express.js
+- ReactJS
+- Styled Components
+- ESlint
+- Jest para testes automatizados
+- Docker
+
 ---
 
 Para clonar e executar esta aplicação, você precisará de Git, Node.js + Yarn e Docker + Docker Compose instalados no seu computador. A partir do seu terminal de comando:

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
-import { HourContainer, Container, Header, WorkTime, Button, History, Pagination, Select } from './styles';
+import { HourContainer, Container, Header, WorkTime, Button, History, Pagination, Select, BankOfHours } from './styles';
 
 interface IWorkTime {
   hours: string;
@@ -16,9 +16,14 @@ interface IHistoryItem {
   minutes: number;
 }
 
+/* interface IBankOfHours {
+  balance: string;
+} */
+
 const Pontos: React.FC = () => {
   const [workTime, setWorkTime] = useState<IWorkTime | null>(null);
   const [historyItems, setHistoryItems] = useState<IHistoryItem[]>([]);
+  const [bankOfHours, setBankOfHours] = useState<string>('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -31,23 +36,47 @@ const Pontos: React.FC = () => {
     } else {
       fetchWorkTime();
       fetchHistory(page, itemsPerPage);
+      fetchBankOfHours();
     }
   }, [userCode, history, page, itemsPerPage]);
 
   const fetchWorkTime = async () => {
     if (userCode) {
-      const response = await api.get(`/points/today/${userCode}`);
-      setWorkTime(response.data);
+      try {
+        const response = await api.get(`/points/today/${userCode}`);
+        setWorkTime(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar horas de trabalho:', error);
+      }
     }
   };
 
   const fetchHistory = async (page: number, perPage: number) => {
     if (userCode) {
-      const response = await api.get(`/points/history/${userCode}/paginated`, {
-        params: { page, per_page: perPage }
-      });
-      setHistoryItems(response.data.data);
-      setTotalPages(response.data.total_pages);
+      try {
+        const response = await api.get(`/points/history/${userCode}/paginated`, {
+          params: { page, per_page: perPage }
+        });
+        setHistoryItems(response.data.data);
+        setTotalPages(response.data.total_pages);
+      } catch (error) {
+        console.error('Erro ao buscar histórico:', error);
+      }
+    }
+  };
+
+  const fetchBankOfHours = async () => {
+    if (userCode) {
+      try {
+        console.log(`Fetching bank of hours for user_code: ${userCode}`); 
+        const response = await api.get('/bancodehoras', {
+          params: { user_code: userCode, daily_hours: '06:00' }
+        });
+        console.log('Bank of hours response:', response.data);  
+        setBankOfHours(response.data.balance);
+      } catch (error) {
+        console.error('Erro ao buscar banco de horas:', error);
+      }
     }
   };
 
@@ -57,6 +86,7 @@ const Pontos: React.FC = () => {
         await api.post('/points', { user_code: userCode });
         await fetchWorkTime();
         await fetchHistory(page, itemsPerPage);
+        await fetchBankOfHours();
       } catch (error) {
         console.error('Erro ao registrar a hora:', error);
       }
@@ -84,11 +114,11 @@ const Pontos: React.FC = () => {
           <div className='headerMain'>
             <h1>Relógio de ponto</h1>
             <div className='menu'>
-              <button className='sair' onClick={handleLogout}>sair</button>
               <div>
                 <div className='userCode'>#{userCode}</div>
                 <div className='userName'>Usuário</div>
               </div>
+              <button className='sair' onClick={handleLogout}>sair</button>
             </div>
           </div>
         </Header>
@@ -99,6 +129,10 @@ const Pontos: React.FC = () => {
         <Button onClick={handleButtonClick}>
           {workTime?.trabalhando ? 'Hora de saída' : 'Hora de entrada'}
         </Button>
+        <BankOfHours>
+          <h3>Banco de Horas</h3>
+          <p>{bankOfHours || '0h 0m'}</p>
+        </BankOfHours>
         <History>
           <h3>Dias anteriores</h3>
           {historyItems.map(item => (
