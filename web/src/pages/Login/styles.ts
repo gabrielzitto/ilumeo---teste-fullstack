@@ -9,13 +9,21 @@ export const Container = styled.div`
   background-color: #1c1c1c;
   color: #fff;
 
-  h1 {
+  .logo {
     margin-bottom: 20px;
     font-family: Montserrat;
     font-size: 21.52px;
     font-weight: 400;
     line-height: 26.23px;
-    text-align: center;
+    color: #CFCFCF;
+  }
+
+  .logo span {
+    font-family: Montserrat;
+    font-size: 21.52px;
+    font-weight: 800;
+    line-height: 26.23px;
+
   }
 
   p {

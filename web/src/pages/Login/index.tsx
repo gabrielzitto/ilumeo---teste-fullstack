@@ -43,7 +43,7 @@ const Login: React.FC = () => {
   return (
     <Container>
       <InputContainer>
-        <h1>Ponto</h1>
+        <h1 className='logo'>Ponto <span>Ilumeo</span></h1>
         <div className='divInput'>
           <span>Código do usuário</span>
           <input
