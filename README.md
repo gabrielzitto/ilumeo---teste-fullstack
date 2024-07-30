@@ -6,16 +6,16 @@ Sistema de Bater Pontos
 ## tecnologias
 Este projeto está sendo desenvolvido utilizando as seguintes tecnologias:
 
+- ReactJS
 - Node.js
 - TypeScript
 - Postgres
 - TypeORM
 - Express.js
-- ReactJS
 - Styled Components
-- ESlint
 - Jest para testes automatizados
 - Docker
+- ESlint
 
 ---
 
