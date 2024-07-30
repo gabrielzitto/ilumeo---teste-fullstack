@@ -5,7 +5,6 @@ import { Router } from 'react-router-dom';
 import Pontos from './index';
 import api from '../../services/api';
 
-// Mock do serviço API
 jest.mock('../../services/api');
 
 describe('Pontos Page', () => {
@@ -19,7 +18,10 @@ describe('Pontos Page', () => {
         return Promise.resolve({ data: { hours: '8', minutes: '30', trabalhando: true } });
       }
       if (url.includes('/points/history/')) {
-        return Promise.resolve({ data: [{ id: '1', date: '2023-07-29', hours: 8, minutes: 30 }] });
+        return Promise.resolve({ data: { data: [{ id: '1', date: '2023-07-29', hours: 8, minutes: 30 }], total_pages: 1 } });
+      }
+      if (url.includes('/bancodehoras')) {
+        return Promise.resolve({ data: { balance: '10h 0m' } });
       }
       return Promise.reject(new Error('not found'));
     });
@@ -46,7 +48,10 @@ describe('Pontos Page', () => {
         return Promise.resolve({ data: { hours: '8', minutes: '30', trabalhando: true } });
       }
       if (url.includes('/points/history/')) {
-        return Promise.resolve({ data: [{ id: '1', date: '2023-07-29', hours: 8, minutes: 30 }] });
+        return Promise.resolve({ data: { data: [{ id: '1', date: '2023-07-29', hours: 8, minutes: 30 }], total_pages: 1 } });
+      }
+      if (url.includes('/bancodehoras')) {
+        return Promise.resolve({ data: { balance: '10h 0m' } });
       }
       return Promise.reject(new Error('not found'));
     });
@@ -75,7 +80,10 @@ describe('Pontos Page', () => {
         return Promise.resolve({ data: { hours: '8', minutes: '30', trabalhando: true } });
       }
       if (url.includes('/points/history/')) {
-        return Promise.resolve({ data: [{ id: '1', date: '2023-07-29', hours: 8, minutes: 30 }] });
+        return Promise.resolve({ data: { data: [{ id: '1', date: '2023-07-29', hours: 8, minutes: 30 }], total_pages: 1 } });
+      }
+      if (url.includes('/bancodehoras')) {
+        return Promise.resolve({ data: { balance: '10h 0m' } });
       }
       return Promise.reject(new Error('not found'));
     });
@@ -105,7 +113,10 @@ describe('Pontos Page', () => {
         return Promise.resolve({ data: { hours: '8', minutes: '30', trabalhando: false } });
       }
       if (url.includes('/points/history/')) {
-        return Promise.resolve({ data: [{ id: '1', date: '2023-07-29', hours: 8, minutes: 30 }] });
+        return Promise.resolve({ data: { data: [{ id: '1', date: '2023-07-29', hours: 8, minutes: 30 }], total_pages: 1 } });
+      }
+      if (url.includes('/bancodehoras')) {
+        return Promise.resolve({ data: { balance: '10h 0m' } });
       }
       return Promise.reject(new Error('not found'));
     });
