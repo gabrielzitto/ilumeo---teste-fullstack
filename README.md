@@ -9,7 +9,6 @@ Este projeto está sendo desenvolvido utilizando as seguintes tecnologias:
 - [Node.js](https://nodejs.org/en/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Postgres](https://www.postgresql.org/)
-- [MongoDB](https://www.mongodb.com/try/download/community)
 - [TypeORM](https://typeorm.io/#/)
 - [Express.js](https://expressjs.com/)
 - [ReactJS](https://reactjs.org)

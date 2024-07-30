@@ -64,6 +64,18 @@ export const Header = styled.div`
       text-align: center;
       color:#CFCFCF;
     }
+
+    .menu {
+      display: flex;
+      gap: 10px;
+      
+    }
+    
+    .menu .sair {
+      background: #ff8c00;
+      padding: 2px 10px;
+      border-radius: 10px;
+    }
   }
 `;
 

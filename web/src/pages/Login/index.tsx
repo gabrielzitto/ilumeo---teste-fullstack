@@ -11,7 +11,7 @@ const Login: React.FC = () => {
   useEffect(() => {
     const session = localStorage.getItem('session');
     if (session) {
-      // history.push('/pontos');
+      history.push('/pontos');
     }
   }, [history]);
 

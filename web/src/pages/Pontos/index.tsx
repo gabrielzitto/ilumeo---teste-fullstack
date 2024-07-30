@@ -69,7 +69,12 @@ const Pontos: React.FC = () => {
 
   const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(Number(event.target.value));
-    setPage(1); 
+    setPage(1);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('session');
+    history.push('/');
   };
 
   return (
@@ -78,9 +83,12 @@ const Pontos: React.FC = () => {
         <Header>
           <div className='headerMain'>
             <h1>Relógio de ponto</h1>
-            <div>
-              <div className='userCode'>#{userCode}</div>
-              <div className='userName'>Usuário</div>
+            <div className='menu'>
+              <button className='sair' onClick={handleLogout}>sair</button>
+              <div>
+                <div className='userCode'>#{userCode}</div>
+                <div className='userName'>Usuário</div>
+              </div>
             </div>
           </div>
         </Header>
