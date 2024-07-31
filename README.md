@@ -1,6 +1,7 @@
-![image](https://github.com/user-attachments/assets/27a6a4e1-3519-4e1b-a3f8-f44e7d9d3ed1)
+![ezgif-4-c6c4a543bd](https://github.com/user-attachments/assets/2f76f266-983d-4c80-933f-0d5543ed3634)
 
 <h1 align="center">
+
 Sistema de Bater Pontos
 </h1>
 
