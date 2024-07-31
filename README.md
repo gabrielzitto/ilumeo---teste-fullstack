@@ -3,6 +3,10 @@
 Sistema de Bater Pontos
 </h1>
 
+Figma
+
+https://www.figma.com/design/HW7r4q2vEssbkGPdia4FG6/Ilumeo---Teste-Fullstack-(Copy)?node-id=0-1&t=weWOGKKbKeeNjkRw-1
+
 ## tecnologias
 Este projeto está sendo desenvolvido utilizando as seguintes tecnologias:
 
