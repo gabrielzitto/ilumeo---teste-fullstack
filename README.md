@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/27a6a4e1-3519-4e1b-a3f8-f44e7d9d3ed1)
 
 <h1 align="center">
 Sistema de Bater Pontos
@@ -20,6 +21,8 @@ Este projeto está sendo desenvolvido utilizando as seguintes tecnologias:
 - Jest para testes automatizados
 - Docker
 - ESlint
+- Prettier
+- User session salva no localstorage
 
 ---
 
